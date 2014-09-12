@@ -1,0 +1,50 @@
+doctype html
+html(lang="en")
+  head
+    meta(name='viewport', content='width=device-width, user-scalable=no')
+    link(rel='stylesheet', href='./css/CADViewFrame.css')
+  body.non-initialized
+    .cadjs-content-container
+      #cadjs-view.cadjs-view
+      #info-panel.info-panel
+        #cadjs-compass.cadjs-compass
+        #key-hints.key-hints
+          h2 Controls
+          p
+            span.key-label z
+            | zoom to fit
+          p
+            span.key-label j
+            | toggle visible
+          p
+            span.key-label o
+            | toggle transparent
+          p
+            span.key-label x
+            | explode
+          p
+            span.key-label s
+            | unexplode
+      #cadjs-tree.cadjs-tree
+      #cadjs-downloads.cadjs-downloads
+        div
+          h3#cadjs-downloads-header
+            span#cadjs-downloads-progress-bar
+            span#cadjs-downloads-header-label Downloading…
+            span.cadjs-downloads-count
+        ul
+      #dialog
+        p#dialog-content
+      #resizer
+        svg.expander(title='Expand to full screen', version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', x='0px', y='0px', width='19.834px', height='14px', viewbox='0 0 19.834 14', enable-background='new 0 0 19.834 14', xml:space='preserve')
+          polygon(fill='#231F20', points='2,4 2,2 5,2 5,0 0,0 0,4 		')
+          polygon(fill='#231F20', points='2,10 0,10 0,14 5,14 5,12 2,12 		')
+          polygon(fill='#231F20', points='17.834,10 17.834,12 14.834,12 14.834,14 19.834,14 19.834,10 		')
+          polygon(fill='#231F20', points='17.834,4 19.834,4 19.834,0 14.834,0 14.834,2 17.834,2 		')
+        svg.minimizer(title='Minimize view', version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', x='0px', y='0px', width='19.834px', height='14px', viewbox='0 0 19.834 14', enable-background='new 0 0 19.834 14', xml:space='preserve')
+          polygon(fill='#231F20', points='13.5,13 13.5,11 16.5,11 16.5,9 11.5,9 11.5,13 ')
+          polygon(fill='#231F20', points='13.5,2 11.5,2 11.5,6 16.5,6 16.5,4 13.5,4 ')
+          polygon(fill='#231F20', points='6,2 6,4 3,4 3,6 8,6 8,2 ')
+          polygon(fill='#231F20', points='6,13 8,13 8,9 3,9 3,11 6,11 ')
+
+    script(data-main='js/CADViewFrame.js', src='js/libs/require.min.js')

@@ -1,0 +1,3 @@
+[submodule "ipcad/static/lib/cad"]
+	path = ipcad/static/lib/cad
+	url = https://github.com/ghemingway/cad.js.git

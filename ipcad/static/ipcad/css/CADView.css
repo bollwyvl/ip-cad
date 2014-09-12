@@ -1,0 +1,9 @@
+/* This is just for actual notebook wrapper stuff... resizing, etc. */
+.ipcad .CADView {
+  width: 100%;
+  height: 100%;
+}
+.ipcad .CADView iframe {
+  width: 100%;
+  height: 100%;
+}
