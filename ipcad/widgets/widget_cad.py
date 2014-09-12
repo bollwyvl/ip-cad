@@ -21,4 +21,13 @@ class CAD(InstallerMixin, widgets.DOMWidget):
     # _view_styles = ['css/CADView.css']
 
     # an actual value, used in the front-end
-    value = traitlets.Unicode(sync=True)
+    assembly_url = traitlets.Unicode(sync=True)
+
+    width = traitlets.Float(sync=True)
+    height = traitlets.Float(600, sync=True)
+
+    selected = traitlets.Unicode(sync=True)
+    
+    camera_near = traitlets.Float(sync=True)
+    camera_far = traitlets.Float(sync=True)
+    

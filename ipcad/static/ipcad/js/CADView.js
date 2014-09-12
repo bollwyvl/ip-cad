@@ -21,8 +21,10 @@ The browser-side counterpart to CAD
         __extends(CADView, _super);
 
         function CADView() {
-          this.update = __bind(this.update, this);
-          this.hasCAD = __bind(this.hasCAD, this);
+          this.cameraChange = __bind(this.cameraChange, this);
+          this.dimensionsChange = __bind(this.dimensionsChange, this);
+          this.cadChange = __bind(this.cadChange, this);
+          this.assemblyChange = __bind(this.assemblyChange, this);
           this.frameLoaded = __bind(this.frameLoaded, this);
           this.render = __bind(this.render, this);
           return CADView.__super__.constructor.apply(this, arguments);
@@ -32,12 +34,17 @@ The browser-side counterpart to CAD
 
         CADView.prototype.render = function() {
           _.defer(this.update);
+          this.listenTo(this.model, {
+            "change:assembly_url": this.assemblyChange,
+            "change:width change:height": this.dimensionsChange,
+            "change:camera_near change:camera_near": this.cameraChange
+          });
           this.viewModel = new Backbone.Model({
             cad: null,
             frame: null
           });
-          this.viewModel.on({
-            "change:cad": this.hasCAD
+          this.listenTo(this.viewModel, {
+            "change:cad": this.cadChange
           });
           this.$frame = $("<iframe/>", {
             src: "/nbextensions/ipcad/CADViewFrame.html"
@@ -55,7 +62,7 @@ The browser-side counterpart to CAD
               return function() {
                 var cad;
                 if (cad = _this.contentWindow.cad) {
-                  view.viewModel.set("cad", cad);
+                  return view.viewModel.set("cad", cad);
                 }
                 return _.delay(_this.cadLoaded, 1000);
               };
@@ -64,12 +71,45 @@ The browser-side counterpart to CAD
           };
         };
 
-        CADView.prototype.hasCAD = function() {
-          return console.log(this.viewModel.get("cad"));
+        CADView.prototype.assemblyChange = function() {
+          var assemblyUrl, cad;
+          if (cad = this.viewModel.get("cad")) {
+            if (assemblyUrl = this.model.get("assembly_url")) {
+              if (!assemblyUrl.match(/https?:\/\//)) {
+                assemblyUrl = $("<a/>", {
+                  href: "."
+                })[0].href + assemblyUrl;
+              }
+              cad.load(assemblyUrl);
+            }
+          }
+          return this;
         };
 
-        CADView.prototype.update = function(options) {
-          return CADView.__super__.update.call(this, options);
+        CADView.prototype.cadChange = function() {
+          if (this.model.get("assembly_url")) {
+            this.assemblyChange();
+          }
+          return this;
+        };
+
+        CADView.prototype.dimensionsChange = function() {
+          this.$el.css({
+            width: this.model.get("width") || "100%",
+            height: this.model.get("height")
+          });
+          return this;
+        };
+
+        CADView.prototype.cameraChange = function() {
+          var cad, cam, viewer;
+          cad = this.viewModel.get("cad");
+          viewer = cad._viewer;
+          cam = viewer.camera;
+          cam.near = this.model.get("camera_near") || cam.near;
+          cam.far = this.model.get("camera_far") || cam.far;
+          cam.updateProjectionMatrix();
+          return viewer.invalidate();
         };
 
         return CADView;

@@ -68,12 +68,15 @@
       }
     });
     return require(["./CAD", "jquery", "underscore", "THREE", "VIS"], function(CAD, $, THREE, VIS) {
-      return window.cad = new CAD({
+      var cad;
+      cad = new CAD({
         viewContainerId: "cadjs-view",
         compassContainerId: "cadjs-compass",
         downloadsContainerId: "cadjs-downloads",
         treeContainerSelector: ".cadjs-tree"
       });
+      cad.setupPage();
+      return window.cad = cad;
     });
   }).call(this, this.require);
 

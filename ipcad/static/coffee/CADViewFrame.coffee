@@ -93,10 +93,14 @@
       "VIS"
     ],
     (CAD, $, THREE, VIS) ->
-      window.cad = new CAD {
+      cad = new CAD {
         viewContainerId: "cadjs-view"
         compassContainerId: "cadjs-compass"
         downloadsContainerId: "cadjs-downloads"
         treeContainerSelector: ".cadjs-tree"
       }
+
+      cad.setupPage()
+      
+      window.cad = cad      
 ).call @, @require
